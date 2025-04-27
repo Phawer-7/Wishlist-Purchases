@@ -12,14 +12,20 @@ def get_data(id, data):
         return doc['name']
     elif data == 'date':
         return doc['week']
+    elif data == 'type':
+        return doc['type']
     elif data == 'isactive':
         return doc['isactive']
     
-def getAll() -> dict:
+def getAll(type) -> dict:
     posts = {}
-    for post in collection.find({'isactive': True}):
-        posts[post['_id']] = post['name']
-    # {1: 'non', 2: 'pashtet'}
+    if type == 'month':
+        for post in collection.find({'isactive': True, 'type': 'month'}):
+            posts[post['_id']] = post['name']
+    else:
+        for post in collection.find({'isactive': True, 'type': 'week'}):
+            posts[post['_id']] = post['name']
+
     return posts
 
 def change_status(id): 
